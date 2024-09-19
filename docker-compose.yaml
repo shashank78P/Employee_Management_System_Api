@@ -1,0 +1,35 @@
+services:
+  mongo:
+    image: 'mongo'
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - data:/data/db
+
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: root
+      # MONGO_INITDB_ROOT_PASSWORD: password
+
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+
+    depends_on:
+      - mongo
+
+    ports:
+      - '3001:3001'
+
+    volumes:
+      - .:/app  
+
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/EMS
+      # - MONGODB_URI=mongodb://root:password@mongo:27017/EMS?authSource=admin
+      - JWT_SECRET=Ems_secret 
+      - FRONTEND_URL=http://localhost:5173 
+
+volumes:
+  data:
