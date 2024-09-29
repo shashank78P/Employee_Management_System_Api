@@ -1,13 +1,13 @@
 export interface employeeDto {
     name: string
     email: string
-    mobileNumber : string
-    gender : genderEnum
-    designation : designationEnum
-    course : courseEnum
-    imageUrl : string
-    status : status
-}  
+    mobileNumber: string
+    gender: genderEnum
+    designation: designationEnum
+    course: courseEnum
+    imageUrl: string
+    status: status
+}
 
 export enum genderEnum {
     M = "M",
@@ -22,7 +22,8 @@ export enum courseEnum {
 
 export enum designationEnum {
     Manager = "Manager",
-    Developer = "Developer",
+    HR = "HR",
+    SALES = "Sales",
 }
 
 export enum status {
@@ -30,10 +31,10 @@ export enum status {
     IN_ACTIVE = "IN_ACTIVE",
 }
 
-export interface createdEmployeeBodyDto extends employeeDto{
+export interface createdEmployeeBodyDto extends employeeDto {
 
 }
 
-export interface updateEmployeeBodyDto extends employeeDto{
+export interface updateEmployeeBodyDto extends employeeDto {
 
 }
