@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = require("mongoose");
+const mongoose_1 = __importDefault(require("mongoose"));
 const start_server_1 = __importDefault(require("./start-server"));
 class Database {
     constructor() { }
@@ -14,16 +14,17 @@ class Database {
         return Database.instance;
     }
     connectToDB() {
-        if (mongoose.connection.readyState === 1) {
+        if (mongoose_1.default.connection.readyState === 1) {
             console.log("Already connected to the database.");
             return;
         }
         console.log("Connecting to DB...");
-        mongoose
-            .connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
+        if (!process.env.MONGODB_URI) {
+            console.error("Error: MONGODB_URI not set.");
+            return;
+        }
+        mongoose_1.default
+            .connect(process.env.MONGODB_URI)
             .then(() => {
             (0, start_server_1.default)();
             console.log("Connected to database");

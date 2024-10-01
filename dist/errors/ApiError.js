@@ -4,6 +4,7 @@ exports.ErrorCodes = void 0;
 class ApiError extends Error {
     constructor(statusCode, message, errorCode, errors = []) {
         super(message);
+        console.log(message);
         this.statusCode = statusCode;
         this.message = message;
         this.errorCode = errorCode;

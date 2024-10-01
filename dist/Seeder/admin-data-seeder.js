@@ -13,21 +13,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = require("bcryptjs");
-const login_schema_1 = __importDefault(require("../schema/login-schema"));
+const admin_schema_1 = __importDefault(require("../schema/admin-schema"));
 const data = {
     name: "Shashank P",
     password: "Password123"
 };
 function SeedAdminData() {
     return __awaiter(this, void 0, void 0, function* () {
-        const hasedPassword = yield bcrypt.hash(data === null || data === void 0 ? void 0 : data.password, 10);
-        const createdUser = yield login_schema_1.default.insertMany([
-            {
-                name: data === null || data === void 0 ? void 0 : data.name,
-                password: hasedPassword
+        try {
+            const isUserExist = yield admin_schema_1.default.findOne({ name: data === null || data === void 0 ? void 0 : data.name });
+            const hasedPassword = yield bcrypt.hash(data === null || data === void 0 ? void 0 : data.password, 10);
+            console.log(hasedPassword);
+            if (!(isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist._id)) {
+                const user = new admin_schema_1.default({
+                    name: data === null || data === void 0 ? void 0 : data.name,
+                    password: hasedPassword
+                });
+                user.save();
+                console.log("Admin user data seeded!.");
+                return;
             }
-        ]);
-        console.log(createdUser);
+            else {
+                yield admin_schema_1.default.updateOne({
+                    name: data === null || data === void 0 ? void 0 : data.name
+                }, {
+                    $set: {
+                        password: hasedPassword
+                    }
+                });
+                console.log("Admin user data updated!.");
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
     });
 }
 exports.default = SeedAdminData;
