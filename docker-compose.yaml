@@ -20,7 +20,7 @@ services:
       - mongo
 
     ports:
-      - '80:3001'
+      - '80:80'
 
     volumes:
       - .:/app  
